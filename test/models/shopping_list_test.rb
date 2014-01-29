@@ -7,9 +7,14 @@ class ShoppingListTest < ActiveSupport::TestCase
     refute shopping_lists(:one).valid?
   end
 
-  def test_it_has_ingredients
-    assert_equal 0, shopping_lists(:one).ingredients.count
+  def test_it_has_list_ingredients
+    assert_equal 0, shopping_lists(:two).list_ingredients.count
 
+    # assert_equal 1, shopping_lists(:one).ingredients.count
+  end
+
+  def test_it_has_ingredients
+    assert_equal 0, shopping_lists(:two).ingredients.count
     # assert_equal 1, shopping_lists(:one).ingredients.count
   end
 end
