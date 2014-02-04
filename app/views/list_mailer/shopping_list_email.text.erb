@@ -1,9 +1,16 @@
-Welcome to example.com, <%= @user.name %>
+Thank you for creating a list at The Fridge
 ===============================================
  
-You have successfully signed up to example.com,
-your username is: <%= @user.login %>.
+Your Shopping List: 
+  <% @list_ingredients.each do |li|%> 
+    <%= li.quantity unless li.quantity.blank? %>
+    <%= li.measurement unless li.measurement.blank? %>
+    <%= li.ingredient.name %>
+  <% end %>
  
-To login to the site, just follow this link: <%= @url %>.
- 
-Thanks for joining and have a great day!
+Your Current Recipes:
+<% @recipes.each do |recipe|%> 
+  <%= recipe.name %> | <%= recipe.servings %> Servings <%= recipe.source_url %>
+<% end %>
+
+Thank you and have a great day!

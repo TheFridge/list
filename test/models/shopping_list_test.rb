@@ -17,6 +17,6 @@ class ShoppingListTest < ActiveSupport::TestCase
 
   def test_it_has_a_recipes_array
     list = shopping_lists(:one)
-    assert_equal "boo", list.recipes
+    assert_equal 0, list.recipes.count
   end
 end

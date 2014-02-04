@@ -1,9 +1,8 @@
 class ShoppingList < ActiveRecord::Base
   has_many :list_ingredients
   has_many :ingredients, through: :list_ingredients
-  validates_presence_of :user_id
+  has_many :recipes_shopping_list
+  has_many :recipes, through: :recipes_shopping_list
 
-  def recipes
-    
-  end
+  validates_presence_of :user_id
 end

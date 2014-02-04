@@ -10,6 +10,7 @@ class AppInput
     list = ShoppingList.create(shopping_list_data)
     all_recipes.each do |recipe|
       new_recipe = Recipe.create(recipe_data(recipe))
+      RecipesShoppingList.create(recipe: new_recipe, shopping_list: list)
       recipe["ingredients"].each do |ingredient|
         new_ingredient = Ingredient.create(ingredient_data(ingredient))
         RecipeIngredient.create("ingredient_id" => new_ingredient.id, "recipe_id" => new_recipe.id )

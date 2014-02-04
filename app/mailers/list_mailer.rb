@@ -3,8 +3,8 @@ class ListMailer < ActionMailer::Base
 
   def shopping_list_email(list)
     @list = list
-    #@recipes = 
-    @ingredients = list.ingredients
+    @recipes = list.recipes
+    @list_ingredients = list.list_ingredients
     mail(to: @list.user_email, subject: 'Your Shopping List from The Fridge')
   end
 end
