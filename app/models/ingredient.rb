@@ -28,15 +28,8 @@ class Ingredient < ActiveRecord::Base
   end
 
   def self.acceptable_measurements
-    ['teaspoon', 'teaspoons', 't', 'tsp', 'cup', 'cups', 'pound', 'pounds', 'tablespoon', 'tablespoons', 'tbl', 'tbs', 'tbsp', 'ounce', 'fl oz']
+    ['teaspoon', 'teaspoons', 't', 'tsp', 'cup', 'cups', 'pound', 'pounds', 'tablespoon', 
+      'tablespoons', 'tbl', 'tbs', 'tbsp', 'ounce', 'ounces', 'oz', 'fl oz', 'pint', 'pints', 'quart', 'quarts',
+      'gallon', 'gallons', 'ml', 'liter', 'litre', 'l']
   end
-# gill (about 1/2 cup)
-# cup (also c)
-# pint (also p, pt, or fl pt - Specify Imperial or US)
-# quart (also q, qt, or fl qt - Specify Imperial or US)
-# gallon (also g or gal - Specify Imperial or US)
-# ml, also milliliter, millilitre, cc (and mL only in the US, Canada and Australia).
-# l, also liter, litre, (and L only in the US, Canada and Australia).
-# dl, also deciliter, decilitre (and dL only in the US, Canada and Australia).]
-#   end
 end
