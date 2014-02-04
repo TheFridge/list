@@ -41,11 +41,29 @@ class AppInputTest < ActiveSupport::TestCase
     assert_equal "3", Ingredient.get_quantity(input.ingredient_list.first)
   end
 
-  def test_it_pulls_ingredients_and_stores_them
-    skip
-    assert_equal 2, Ingredient.count
+  def test_it_creates_a_new_shopping_list
+    assert_equal 2, ShoppingList.count
     input = AppInput.new(@data)
+    assert_equal ShoppingList, input.shopping_list.class
+    assert_equal 3, ShoppingList.count
+  end
+
+  def test_it_creates_ingredients
+    assert_equal 2, Ingredient.count
+    assert_equal 2, ListIngredient.count
+    input = AppInput.new(@data)
+    input.create_ingredients(1)
     assert_equal 8, Ingredient.count
+    assert_equal 8, ListIngredient.count
+  end
+
+  def test_creates_full_list
+    input = AppInput.new(@data)
+    input.create_full_list
+    list = ShoppingList.last
+    assert_equal "fakeuser@example.com", list.user_email
+    assert_equal "butter", list.ingredients.first.name
+    assert_equal 1, list.ingredients.first.list_ingredients.count
   end
 
 end

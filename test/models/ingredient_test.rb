@@ -64,5 +64,4 @@ class IngredientTest < ActiveSupport::TestCase
     name = Ingredient.get_name("3 Blackened Chickens")
     assert_equal "Blackened Chickens", name
   end
-
 end
