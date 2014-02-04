@@ -29,14 +29,13 @@ class ListMailerTest < ActionMailer::TestCase
       ]
     }
 
-    input = AppInput.new(data)
-    input.create_full_list
+    @list = ShoppingList.new
+    @list.update_params(data)
     ActionMailer::Base.delivery_method = :smtp
   end
 
   def test_it_creates_user_mailer
-    list = ShoppingList.last
-    ListMailer.shopping_list_email(list).deliver
+    ListMailer.shopping_list_email(@list).deliver
     #check in mailcatcher
   end
 end

@@ -1,6 +1,6 @@
 FridgeList::Application.routes.draw do
   resources :recipe_ingredients
-
+  resources :shopping_lists
   resources :recipes
 
   # The priority is based upon order of creation: first created -> highest priority.
