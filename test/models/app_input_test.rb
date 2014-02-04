@@ -2,6 +2,8 @@ require 'test_helper'
 
 class AppInputTest < ActiveSupport::TestCase
 
+  attr_reader :input
+
   def setup
     @data = {
     "user" => {
@@ -29,6 +31,47 @@ class AppInputTest < ActiveSupport::TestCase
         }
       ]
     }
+
+    @input = AppInput.new(@data)
+  end
+
+  def test_create_full_list_populates_database
+    assert_equal 2, Ingredient.count
+    assert_equal 2, ListIngredient.count
+    assert_equal 2, Recipe.count
+    assert_equal 0, RecipeIngredient.count
+    input.create_full_list
+    assert_equal 8, Ingredient.count
+    assert_equal 8, ListIngredient.count
+    assert_equal 4, Recipe.count
+    assert_equal 6, RecipeIngredient.count
+  end
+
+  def test_create_full_list_creates_recipes
+    input.create_full_list
+    cherry = Recipe.last
+    assert_equal "Bombay Cherry", cherry.name
+    assert_equal 3, cherry.ingredients.count
+  end
+
+  def test_shopping_list_data_valid
+    assert ShoppingList.new(input.shopping_list_data).valid?
+  end
+
+  def test_recipe_data_valid
+    one_recipe = @data["recipes"].first
+    assert Recipe.new(input.recipe_data(one_recipe)).valid?
+  end
+
+  def test_ingredient_data_valid
+    one_ingredient = @data["recipes"].first["ingredients"].first
+    assert Ingredient.new(input.ingredient_data(one_ingredient)).valid?
+  end
+
+  def test_list_ingredient_data_valid
+    one_ingredient = @data["recipes"].first["ingredients"].first
+    ingredient_hash = {"quantity"=>3, "measurement"=>"tablespoons"}
+    assert_equal ingredient_hash, input.list_ingredient_data(one_ingredient)
   end
 
   def test_it_grabs_all_ingredients
@@ -40,32 +83,6 @@ class AppInputTest < ActiveSupport::TestCase
     input = AppInput.new(@data)
     assert_equal "3", Ingredient.get_quantity(input.ingredient_list.first)
   end
-
-  def test_it_creates_a_new_shopping_list
-    assert_equal 2, ShoppingList.count
-    input = AppInput.new(@data)
-    assert_equal ShoppingList, input.shopping_list.class
-    assert_equal 3, ShoppingList.count
-  end
-
-  def test_it_creates_ingredients
-    assert_equal 2, Ingredient.count
-    assert_equal 2, ListIngredient.count
-    input = AppInput.new(@data)
-    input.create_ingredients(1)
-    assert_equal 8, Ingredient.count
-    assert_equal 8, ListIngredient.count
-  end
-
-  def test_creates_full_list
-    input = AppInput.new(@data)
-    input.create_full_list
-    list = ShoppingList.last
-    assert_equal "fakeuser@example.com", list.user_email
-    assert_equal "butter", list.ingredients.first.name
-    assert_equal 1, list.ingredients.first.list_ingredients.count
-  end
-
 end
 
 
