@@ -39,12 +39,12 @@ class AppInputTest < ActiveSupport::TestCase
     assert_equal 2, Ingredient.count
     assert_equal 2, ListIngredient.count
     assert_equal 2, Recipe.count
-    assert_equal 0, RecipeIngredient.count
+    assert_equal 2, RecipeIngredient.count
     input.create_full_list
     assert_equal 8, Ingredient.count
     assert_equal 8, ListIngredient.count
     assert_equal 4, Recipe.count
-    assert_equal 6, RecipeIngredient.count
+    assert_equal 8, RecipeIngredient.count
   end
 
   def test_create_full_list_creates_recipes
@@ -84,17 +84,3 @@ class AppInputTest < ActiveSupport::TestCase
     assert_equal "3", Ingredient.get_quantity(input.ingredient_list.first)
   end
 end
-
-
-
-    
-    # Thank you for meal planning with us.
-
-    # Your shopping list is:
-
-
-
-
-    # A link to your recipes
-    #   name:
-    #   link:

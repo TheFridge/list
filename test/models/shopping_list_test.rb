@@ -9,12 +9,14 @@ class ShoppingListTest < ActiveSupport::TestCase
 
   def test_it_has_list_ingredients
     assert_equal 0, shopping_lists(:two).list_ingredients.count
-
-    # assert_equal 1, shopping_lists(:one).ingredients.count
   end
 
   def test_it_has_ingredients
     assert_equal 0, shopping_lists(:two).ingredients.count
-    # assert_equal 1, shopping_lists(:one).ingredients.count
+  end
+
+  def test_it_has_a_recipes_array
+    list = shopping_lists(:one)
+    assert_equal "boo", list.recipes
   end
 end
