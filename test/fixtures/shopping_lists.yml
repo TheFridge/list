@@ -1,6 +1,7 @@
 
 one:
   user_id: 1
+  user_email: 'fakeuser@example.com'
 two:
   user_id: 2
 

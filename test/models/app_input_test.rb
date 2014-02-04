@@ -54,6 +54,15 @@ class AppInputTest < ActiveSupport::TestCase
     assert_equal 3, cherry.ingredients.count
   end
 
+  def test_creates_quantity_and_measurements
+    input.create_full_list
+    list = ShoppingList.last
+    assert_equal "butter", list.list_ingredients.first.ingredient.name
+    assert_equal 3, list.list_ingredients.first.quantity
+    #assert_equal "Bombay Cherry", cherry.name
+    #assert_equal 3, cherry.ingredients.count
+  end
+
   def test_shopping_list_data_valid
     assert ShoppingList.new(input.shopping_list_data).valid?
   end

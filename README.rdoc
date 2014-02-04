@@ -1,3 +1,14 @@
 == README
 
 This is for the shopping list and fridge list.
+
+
+Testing
+
+Install and run MailCatcher
+
+gem install mailcatcher
+mailcatcher
+
+You can check your mail at:
+http://localhost:1080/

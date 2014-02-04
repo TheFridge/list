@@ -1,4 +1,6 @@
 one: 
   name: "Tomato Paste"
+  source_url: "www.tomatorecipe.com"
+  servings: "4"
 two:
   name: "Potato Soup"
