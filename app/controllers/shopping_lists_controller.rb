@@ -1,6 +1,10 @@
 class ShoppingListsController < ApplicationController
   respond_to :json
 
+  def index
+    render json: ShoppingList.all
+  end
+
   def show
     render json: ShoppingList.find(params[:id])
   end
