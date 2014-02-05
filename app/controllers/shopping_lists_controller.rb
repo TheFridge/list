@@ -5,11 +5,10 @@ class ShoppingListsController < ApplicationController
   end
 
   def create
-    input = AppInput.new(shopping_list_params)
-    input.create_full_list
-    render json: {message: "Your message was sent"}, :status => 201
+    list = ShoppingList.new
+    list.update_params(params)
+    render json: list, :status => 201
   end
 
   private
-
 end
