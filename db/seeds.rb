@@ -25,5 +25,5 @@
       ]
     }
 
-input = AppInput.new(data)
-input.create_full_list
+#input = AppInput.new(data)
+#input.create_full_list
