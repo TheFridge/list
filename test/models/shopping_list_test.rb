@@ -31,6 +31,12 @@ class ShoppingListTest < ActiveSupport::TestCase
       ]
     }
   end
+
+  def test_it_captures_raw_name
+    list = ShoppingList.new
+    list.update_params(data)
+    assert_equal "3 tablespoons butter", list.list_ingredients.first.raw_name
+  end
   
   def test_it_is_associated_with_a_user
     shopping_lists(:one).update(:user_id => nil)
