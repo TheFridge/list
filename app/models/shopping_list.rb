@@ -45,7 +45,7 @@ class ShoppingList < ActiveRecord::Base
   def list_ingredient_data(string, ingredient)
     qty = Ingredient.get_quantity(string).to_i
     measure = Ingredient.get_measurement(string)
-    {"shopping_list_id" => self.id, "quantity" => qty, "measurement" => measure, "ingredient_id" => ingredient.id}
+    {"shopping_list_id" => self.id, "quantity" => qty, "measurement" => measure, "ingredient_id" => ingredient.id, "raw_name" => string}
   end
 
 end
