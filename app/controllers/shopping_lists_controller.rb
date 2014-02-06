@@ -9,7 +9,8 @@ class ShoppingListsController < ApplicationController
   end
 
   def show
-    render json: ShoppingList.find(params[:id])
+    @list = ShoppingList.find(params[:id])
+    render json: @list.to_json({:list_ingredients})
   end
 
   def create
