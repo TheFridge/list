@@ -10,7 +10,7 @@ class ShoppingListsController < ApplicationController
 
   def show
     @list = ShoppingList.find(params[:id])
-    render json: @list.to_json
+    render json: @list.to_json(:include => [{:recipes => {except: [:created_at, :updated_at] }}, {:list_ingredients => {only: [:raw_name] }} ])
   end
 
   def create
