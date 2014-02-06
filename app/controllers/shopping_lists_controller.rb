@@ -2,7 +2,8 @@ class ShoppingListsController < ApplicationController
   respond_to :json
 
   def index
-    render json: ShoppingList.all
+    @lists = ShoppingList.all
+    render json: @lists.to_json(:include => [{:recipes => {except: [:created_at, :updated_at] }}, {:ingredients => {except: [:created_at, :updated_at] }}])
   end
 
   def show
