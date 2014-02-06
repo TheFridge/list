@@ -2,6 +2,7 @@ FridgeList::Application.routes.draw do
   resources :recipe_ingredients
   resources :shopping_lists, path: "/shopping-lists"
   resources :recipes
+  root 'static_pages#welcome'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
