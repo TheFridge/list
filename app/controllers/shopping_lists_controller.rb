@@ -1,6 +1,6 @@
 class ShoppingListsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  
+
   respond_to :json
 
   def index
@@ -10,7 +10,7 @@ class ShoppingListsController < ApplicationController
 
   def show
     @list = ShoppingList.find(params[:id])
-    render json: @list.to_json({:list_ingredients})
+    render json: @list.to_json
   end
 
   def create
