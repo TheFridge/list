@@ -41,22 +41,23 @@ class ShoppingListsControllerTest < ActionController::TestCase
 
   def test_it_appends_to_list
     post :create, @data
+    first_list_id = ShoppingList.all.last.id
     new_data = @data.dup
     new_data['recipes'] = [
         {"name" => "Strawberry Short Cake",
         "source_url" => "www.example.com/ShortCake",
         "servings" => "8",
         "ingredients" => [
-          '9 Strawberries',
+          '9 strawberries',
           '1 Cake',
           '1 can whipped cream'
           ]
         }
       ]
     post :create, new_data
+    assert_equal first_list_id, ShoppingList.all.last.id
     assert response.body.match(/paprika/)
     assert response.body.match(/strawberries/)
-    assert_equal "boo", response.body
   end
 
   def test_responds_to_post_list_method_without_data
@@ -65,7 +66,6 @@ class ShoppingListsControllerTest < ActionController::TestCase
   end
 
   def test_it_responds_post_list_with_data
-    skip
     @list = ShoppingList.new
     @list.update_params(@data)
     post :email_list, {user_id: 20}
