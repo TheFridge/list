@@ -20,16 +20,16 @@ class ShoppingList < ActiveRecord::Base
 
   def create_recipes(data)
     data['recipes'].each do |recipe|
-      new_recipe = Recipe.create(recipe_data(recipe))
-      RecipesShoppingList.create(recipe: new_recipe, shopping_list: self)
+      new_recipe = Recipe.find_or_create_by(recipe_data(recipe))
+      RecipesShoppingList.find_or_create_by(recipe: new_recipe, shopping_list: self)
     end
   end
 
   def create_shopping_list_ingredients(data)
     data['recipes'].each do |recipe|
       recipe['ingredients'].each do |ingredient|
-        new_ingredient = Ingredient.create(ingredient_data(ingredient.dup))
-        ListIngredient.create(list_ingredient_data(ingredient, new_ingredient)) 
+        new_ingredient = Ingredient.find_or_create_by(ingredient_data(ingredient.dup))
+        ListIngredient.find_or_create_by(list_ingredient_data(ingredient, new_ingredient)) 
       end
     end
   end

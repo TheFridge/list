@@ -1,6 +1,6 @@
 class ShoppingListsControllerTest < ActionController::TestCase
     def setup
-    data = {
+    @data = {
     "user" => {
       "user_id" => 20,
       "email" => 'email_shopping_list_user@example.com'
@@ -26,10 +26,37 @@ class ShoppingListsControllerTest < ActionController::TestCase
         }
       ]
     }
-
-    @list = ShoppingList.new
-    @list.update_params(data)
     ActionMailer::Base.delivery_method = :smtp
+    end
+
+  def test_it_creates_new_list
+    #list = ShoppingList.find_or_initialize_by(user_id: @data['user']['user_id'])
+    #recipe = Recipe.find_or_create_by(list.recipe_data(@data['recipes'].first))
+    #assert_equal "boo", RecipesShoppingList.find_or_create_by(recipe: recipe, shopping_list: list)
+    #assert_equal "boo",  @data['recipes']
+    post :create, @data
+    assert response.body.match(/paprika/)
+    refute response.body.match(/strawberries/)
+  end
+
+  def test_it_appends_to_list
+    post :create, @data
+    new_data = @data.dup
+    new_data['recipes'] = [
+        {"name" => "Strawberry Short Cake",
+        "source_url" => "www.example.com/ShortCake",
+        "servings" => "8",
+        "ingredients" => [
+          '9 Strawberries',
+          '1 Cake',
+          '1 can whipped cream'
+          ]
+        }
+      ]
+    post :create, new_data
+    assert response.body.match(/paprika/)
+    assert response.body.match(/strawberries/)
+    assert_equal "boo", response.body
   end
 
   def test_responds_to_post_list_method_without_data
@@ -38,6 +65,9 @@ class ShoppingListsControllerTest < ActionController::TestCase
   end
 
   def test_it_responds_post_list_with_data
+    skip
+    @list = ShoppingList.new
+    @list.update_params(@data)
     post :email_list, {user_id: 20}
     assert_response 201
     #check mail catcher
