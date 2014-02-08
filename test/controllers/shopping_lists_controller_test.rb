@@ -58,6 +58,9 @@ class ShoppingListsControllerTest < ActionController::TestCase
     assert_equal first_list_id, ShoppingList.all.last.id
     assert response.body.match(/paprika/)
     assert response.body.match(/strawberries/)
+    list = ShoppingList.all.last
+    ListMailer.shopping_list_email(list).deliver
+    #check mailer for updated list
   end
 
   def test_responds_to_post_list_method_without_data
