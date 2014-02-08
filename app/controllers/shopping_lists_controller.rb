@@ -19,6 +19,16 @@ class ShoppingListsController < ApplicationController
     render json: @list, :status => 201
   end
 
+  def email_list
+    @list = ShoppingList.where(:user_id => params["user_id"]).first
+    if @list
+      ListMailer.shopping_list_email(@list).deliver
+      render json: @list, :status => 201
+    else
+      render :json => {:error_message => "list not found"}, :status => 404
+    end
+  end
+
   private
 
   #curl command
