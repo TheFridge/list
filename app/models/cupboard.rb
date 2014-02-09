@@ -4,18 +4,31 @@ class Cupboard < ActiveRecord::Base
   validates_presence_of :user_id
 
   def migrate_shopping_list
-    list = ShoppingList.where({:user_id => self.user_id}).first
+    begin
+      list = ShoppingList.where({:user_id => self.user_id}).first
+      create_cupboard_ingredients(list)
+      list.destroy
+    rescue Exception
+      raise ArgumentError, Time.now.to_s + " Something went wrong with the migration"
+    end
+  end
+
+  def create_cupboard_ingredients(list)
     list.list_ingredients.each do |list_ingredient|
       formatting = CupboardIngredient.format_list_ingredient(list_ingredient)
-      if find_cu(list_ingredient.ingredient_id)
-        find_cu(list_ingredient.ingredient_id).update_ingrediedfahbnts(formatting)
-      else
       cu = CupboardIngredient.new(formatting)
       cu.cupboard_id = self.id
       cu.save
-      end
     end
-    list.destroy
+  end
+
+#Below punted until ingredients come in from front end
+
+  def update_quantity
+    # if find_cu(list_ingredient.ingredient_id)
+    # find_cu(list_ingredient.ingredient_id).update_ingredients(formatting)
+    # else
+    #end
   end
 
   def find_cu(id)

@@ -29,8 +29,14 @@ class CupboardTest < ActiveSupport::TestCase
     assert_equal 'cups', cupboards(:one).cupboard_ingredients.first.measurement
     assert_equal 'Tomato', cupboards(:one).cupboard_ingredients.first.ingredient.name
   end
+  
+  def test_migrate_shopping_list_error
+    cupboard_without_a_list = Cupboard.create(user_id: 59)
+    assert_raises(ArgumentError){cupboard_without_a_list.migrate_shopping_list}
+  end
 
   def test_migrate_shopping_list_adjusts_for_quantity
+    skip
     list = shopping_lists(:one)
     cupboards(:one).migrate_shopping_list
     assert_equal 1, cupboards(:one).cupboard_ingredients.count
