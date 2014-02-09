@@ -11,7 +11,9 @@ class CupboardsControllerTest < ActionController::TestCase
   end
 
   def test_it_populates_cupboard_ingredients
-    
+    post :create, {user_id: 1}
+    assert response.body.match(/Tomato/)
   end
 
 end
+

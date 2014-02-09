@@ -4,9 +4,36 @@ class CupboardsController < ApplicationController
 
   def create
     if params['user_id'] && Cupboard.find_or_create_by(user_id: params['user_id'])
-      render json: @cupboard, :status => 201
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      @cupboard.populate
+      render json: formatted_cupboard(@cupboard), :status => 201
     else
       render :json => {:error_message => "cupboard could not save"}, :status => 404  
     end
   end
+
+  def show
+    if Cupboard.where(:id => params[:id]).any?
+      @cupboard = Cupboard.find_by(user_id: params['id'])
+      render json: formatted_cupboard(@cupboard)
+    else
+      render :json => {:error_message => "no cupboard with id #{params[:id]}"}
+    end
+  end
+
+  private
+
+  def formatted_cupboard(cupboard)
+    ingredients = cupboard.cupboard_ingredients.map do |cu|
+      { 'name' => cu.ingredient.name,
+        'ingredient_id' => cu.ingredient_id,
+        'quantity' => cu.quantity, 
+        'measurement' => cu.measurement}
+    end
+    {'cupboard' => cupboard, 'ingredients' => ingredients }.to_json
+  end
 end
+
+#curl command
+
+# curl -X POST -H "Content-Type: application/json" -d "{\"user_id\":1}" http://localhost:3000/cupboards

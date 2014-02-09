@@ -12,6 +12,12 @@ class Cupboard < ActiveRecord::Base
       raise ArgumentError, Time.now.to_s + " Something went wrong with the migration"
     end
   end
+  
+  def populate
+    if ShoppingList.where({:user_id => self.user_id}).any?
+      migrate_shopping_list
+    end
+  end
 
   def create_cupboard_ingredients(list)
     list.list_ingredients.each do |list_ingredient|
