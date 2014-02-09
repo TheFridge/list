@@ -7,5 +7,8 @@
 one: 
   ingredient: one
   shopping_list: one
-two: {}
+  quantity: 3
+  measurement: 'cups'
+  raw_name: '3 cups tomatos'
+two: {} 
 #  column: value

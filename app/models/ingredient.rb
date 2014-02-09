@@ -3,6 +3,8 @@ class Ingredient < ActiveRecord::Base
   has_many :shopping_lists, through: :list_ingredients
   has_many :recipe_ingredients
   has_many :recipes, through: :recipe_ingredients
+  has_many :cupboard_ingredients
+  has_many :cupboards, through: :cupboard_ingredients
   validates_presence_of :name
 
   def self.get_quantity(raw_ingredient)
