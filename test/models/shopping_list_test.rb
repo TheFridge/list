@@ -32,6 +32,24 @@ class ShoppingListTest < ActiveSupport::TestCase
     }
   end
 
+  def test_it_destroys_dependent_list_ingredients
+    list = ShoppingList.new
+    list.update_params(data)
+    the_list_id = list.id
+    assert_equal 6, ListIngredient.where(:shopping_list_id => the_list_id).count
+    list.destroy
+    assert_equal 0, ListIngredient.where(:shopping_list_id => the_list_id).count
+  end
+
+  def test_it_destroys_dependent_recipe_shopping_lists
+    list = ShoppingList.new
+    list.update_params(data)
+    the_list_id = list.id
+    assert_equal 2, RecipesShoppingList.where(:shopping_list_id => the_list_id).count
+    list.destroy
+    assert_equal 0, RecipesShoppingList.where(:shopping_list_id => the_list_id).count   
+  end
+
   def test_it_captures_raw_name
     list = ShoppingList.new
     list.update_params(data)
