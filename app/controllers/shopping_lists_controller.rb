@@ -25,11 +25,25 @@ class ShoppingListsController < ApplicationController
       ListMailer.shopping_list_email(@list).deliver
       render json: @list, :status => 201
     else
-      render :json => {:error_message => "list not found"}, :status => 404
+      no_list_error
+    end
+  end
+
+  def clear_list
+    @list = ShoppingList.where(:user_id => params["user_id"]).first
+    if @list
+      @list.destroy
+      render :json => "List Destroyed", :status => 201
+    else
+      no_list_error
     end
   end
 
   private
+
+  def no_list_error
+    render :json => {:error_message => "list not found"}, :status => 404
+  end
 
   def formatted_list(list)
     list.to_json(:include => [{:recipes => {except: [:created_at, :updated_at] }}, {:list_ingredients => {only: [:raw_name] }} ])

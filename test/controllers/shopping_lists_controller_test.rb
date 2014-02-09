@@ -75,4 +75,13 @@ class ShoppingListsControllerTest < ActionController::TestCase
     assert_response 201
     #check mail catcher
   end
+  
+  def test_it_clears_list
+    assert_equal 2, ShoppingList.count
+    post :create, @data
+    assert_equal 3, ShoppingList.count
+    post :clear_list, {user_id: 20}
+    assert_response 201
+    assert_equal 2, ShoppingList.count
+  end
 end
