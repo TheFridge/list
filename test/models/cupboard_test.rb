@@ -31,6 +31,26 @@ class CupboardTest < ActiveSupport::TestCase
   end
 
   def test_migrate_shopping_list_adjusts_for_quantity
-    skip
+    list = shopping_lists(:one)
+    cupboards(:one).migrate_shopping_list
+    assert_equal 1, cupboards(:one).cupboard_ingredients.count
+    list_two = ShoppingList.create(:user_id => cupboards(:one).user_id)
+    ingredient_id = cupboards(:one).cupboard_ingredients.first.ingredient_id
+    ListIngredient.create(:shopping_list_id => list_two.id, :ingredient_id => ingredient_id, :measurement => "cups",  :quantity => 3)
+    cupboards(:one).migrate_shopping_list
+    assert_equal 1, cupboards(:one).cupboard_ingredients.count
+    assert_equal 6, cupboards(:one).cupboard_ingredients.first.quantity
+  end
+
+  def test_any_matching_ingredients
+    refute cupboards(:one).any_matching_ingredients?(1)
+    CupboardIngredient.create(cupboard_id: cupboards(:one).id, ingredient_id: 1)
+    assert cupboards(:one).any_matching_ingredients?(1)
+  end
+
+  def test_find_cupboard_ingredient
+    assert_equal nil, cupboards(:one).find_cu(1)
+    CupboardIngredient.create(cupboard_id: cupboards(:one).id, ingredient_id: 1)
+    assert_equal CupboardIngredient, cupboards(:one).find_cu(1).class 
   end
 end
