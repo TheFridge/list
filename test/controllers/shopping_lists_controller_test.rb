@@ -3,7 +3,7 @@ class ShoppingListsControllerTest < ActionController::TestCase
     @data = {
     "user" => {
       "user_id" => 20,
-      "email" => 'email_shopping_list_user@example.com'
+      "email" => 'fakeuser@example.com'
      },
      "recipes" => [
         {"name" => "A Good Easy Garlic Chicken",
@@ -13,7 +13,12 @@ class ShoppingListsControllerTest < ActionController::TestCase
           '3 tablespoons butter',
           '4 skinless, boneless chicken breast halves',
           '2 teaspoons garlic powder'
-          ]
+          ],
+        "ingredient_list" => [
+          'butter',
+          'chicken',
+          'garlic powder'
+        ]
         },
         {"name" => "Bombay Cherry",
         "source_url" => "www.example.com/bombay_cherry",
@@ -22,7 +27,12 @@ class ShoppingListsControllerTest < ActionController::TestCase
           '8 cups paprika',
           '7 cherries',
           'All the teaspoons of chickpeas'
-          ]
+        ],
+        "ingredient_list" => [
+          'paprika',
+          'cherries',
+          'chickpeas'
+        ]
         }
       ]
     }
@@ -30,10 +40,6 @@ class ShoppingListsControllerTest < ActionController::TestCase
     end
 
   def test_it_creates_new_list
-    #list = ShoppingList.find_or_initialize_by(user_id: @data['user']['user_id'])
-    #recipe = Recipe.find_or_create_by(list.recipe_data(@data['recipes'].first))
-    #assert_equal "boo", RecipesShoppingList.find_or_create_by(recipe: recipe, shopping_list: list)
-    #assert_equal "boo",  @data['recipes']
     post :create, @data
     assert response.body.match(/paprika/)
     refute response.body.match(/strawberries/)
