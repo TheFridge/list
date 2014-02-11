@@ -13,7 +13,7 @@ class CupboardsController < ApplicationController
   end
 
   def show
-    if Cupboard.where(:id => params[:id]).any?
+    if Cupboard.where(:user_id => params[:id]).any?
       @cupboard = Cupboard.find_by(user_id: params['id'])
       render json: formatted_cupboard(@cupboard)
     else
