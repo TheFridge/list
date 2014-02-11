@@ -29,7 +29,8 @@ class CupboardsController < ApplicationController
         'name' => cu.ingredient.name,
         'ingredient_id' => cu.ingredient_id,
         'quantity' => cu.quantity, 
-        'measurement' => cu.measurement}
+        'measurement' => cu.measurement
+    }
     end
     {'cupboard' => cupboard, 'ingredients' => ingredients }.to_json
   end
