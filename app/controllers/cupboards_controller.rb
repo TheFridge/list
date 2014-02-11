@@ -23,7 +23,7 @@ class CupboardsController < ApplicationController
 
   def destroy
     if Cupboard.where(:user_id => params[:id]).any?
-      @cupboard = Cupboard.find_by(:user_id: params[:id])
+      @cupboard = Cupboard.find_by(user_id: params[:id])
       @cupboard.destroy
     else
       render :json => {:error_message => "no cupboard with user_id #{params[:id]}"}
