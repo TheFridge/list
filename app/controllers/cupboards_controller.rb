@@ -49,6 +49,20 @@ class CupboardsController < ApplicationController
     end
   end
 
+  def add_ingredient
+    if Cupboard.where(user_id: params['user_id']).any?
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      ingredient = Ingredient.create(:name => params['ingredient'])
+      @cupboard.ingredients << ingredient
+      cupboard_ingredient = @cupboard.cupboard_ingredients.find_by(:ingredient_id => ingredient.id)
+      cupboard_ingredient.quantity = params['quantity']
+      cupboard_ingredient.measurement = params['measurement']
+      cupboard_ingredient.save
+    else
+      render :json => {:error_message => "Couldn't add #{params['ingredient']}"}
+    end
+  end
+
   def update_quantity
     if Cupboard.where(user_id: params['user_id']).any?
       @cupboard = Cupboard.find_by(user_id: params['user_id'])
