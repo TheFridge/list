@@ -31,6 +31,17 @@ class CupboardsController < ApplicationController
     end
   end
 
+  def update_quantity
+    if Cupboard.where(user_id: params['user_id']).any?
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      ingredient = @cupboard.cupboard_ingredients.find(params['cupboard_ingredient_id'])
+      ingredient.quantity = params['quantity']
+      ingredient.save
+    else
+      render :json => {:error_message => "Couldn't delete ingredient with id #{params['cupboard_ingredient_id']}"}
+    end
+  end
+
   private
 
   def formatted_cupboard(cupboard)
