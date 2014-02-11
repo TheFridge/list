@@ -6,6 +6,20 @@ class IngredientTest < ActiveSupport::TestCase
     refute ingredients(:one).valid?  
   end
 
+  def test_get_ingredient_tag
+    tag = Ingredient.get_tag("1 1/2 pounds skinless, boneless chicken breast halves - cut into strips", ['boneless chicken breast halv', 'low fat cream', 'red onion'])
+    assert_equal "boneless chicken breast halv", tag
+  end
+
+  def test_get_ingredient_tag_unusual_circumstances
+    array = ['juice', 'shallots','pepper','low sodium chicken stock','unsalted butter','breast halv', 'salt', 'extra-virgin olive oil']
+    raw_ingredient = "1 tablespoon plus 2 to 3 tablespoons cold unsalted butter (cut into small pieces)"
+    tag = Ingredient.get_tag(raw_ingredient, array)
+    assert_equal "unsalted butter", tag
+    tag = Ingredient.get_tag("a chocolate cake", array)
+    assert_equal nil, tag
+  end
+
   def test_ingredient_has_many_list_ingredients
     assert_equal 0, ingredients(:two).list_ingredients.count
   end
@@ -18,6 +32,11 @@ class IngredientTest < ActiveSupport::TestCase
   def test_formatting_quantity_strings
     qty = Ingredient.get_quantity("3 cups Peas")
     assert_equal "3", qty
+  end
+
+  def test_get_quantity_with_many_numbers
+    qty = Ingredient.get_quantity("1 tablespoon plus 2 to 3 tablespoons cold unsalted butter (cut into small pieces)")
+    assert_equal "1", qty
   end
 
   def test_formatting_quantity_strings_fraction
@@ -43,7 +62,7 @@ class IngredientTest < ActiveSupport::TestCase
   end
 
   def test_formatting_quantity_no_number
-    qty = Ingredient.get_quantity("tortillas")
+    qty = Ingredient.get_quantity("salt")
     assert_equal nil, qty
   end
 

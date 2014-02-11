@@ -8,7 +8,7 @@ class Ingredient < ActiveRecord::Base
   validates_presence_of :name
 
   def self.get_quantity(raw_ingredient)
-    qtys = raw_ingredient.split.select do |char|
+    qtys = raw_ingredient[0..8].split.select do |char|
       char =~ /[[:digit:]]/
     end
     joined_qty = qtys.join(' ')
@@ -38,6 +38,13 @@ class Ingredient < ActiveRecord::Base
       raw_ingredient.gsub!(measure, "")
     end
     raw_ingredient.strip
+  end
+
+  def self.get_tag(raw_ingredient, tag_array)
+    result = Ingreedy.parse(raw_ingredient)
+    name = result.ingredient
+    tag = tag_array.select {|tag| name.include?(tag)}
+    tag.first
   end
 
   def self.acceptable_measurements
