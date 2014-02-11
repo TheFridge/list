@@ -38,7 +38,7 @@ class CupboardsController < ApplicationController
       ingredient.quantity = params['quantity']
       ingredient.save
     else
-      render :json => {:error_message => "Couldn't delete ingredient with id #{params['cupboard_ingredient_id']}"}
+      render :json => {:error_message => "Couldn't update ingredient with id #{params['cupboard_ingredient_id']}"}
     end
   end
 
