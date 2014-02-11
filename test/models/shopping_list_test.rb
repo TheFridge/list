@@ -42,6 +42,12 @@ class ShoppingListTest < ActiveSupport::TestCase
     }
   end
 
+  def test_recipe_data
+    list = ShoppingList.new
+    recipe = {"name"=>"A Good Easy Garlic Chicken", "source_url"=>"www.example.com/CHICKEN", "servings"=>"4", "user_id"=>1}
+    assert_equal recipe, list.recipe_data(data['recipes'].first, data)
+  end
+
   def test_it_destroys_dependent_list_ingredients
     list = ShoppingList.new
     list.update_params(data)

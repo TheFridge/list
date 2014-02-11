@@ -6,6 +6,10 @@ class ShoppingList < ActiveRecord::Base
 
   validates_presence_of :user_id
 
+  def see_user_id(params)
+    params['user']["user_id"]
+  end
+
   
   def update_params(params)
     data = shopping_list_data(params)
@@ -20,7 +24,7 @@ class ShoppingList < ActiveRecord::Base
 
   def create_recipes(data)
     data['recipes'].each do |recipe|
-      new_recipe = Recipe.find_or_create_by(recipe_data(recipe))
+      new_recipe = Recipe.find_or_create_by(recipe_data(recipe, data))
       RecipesShoppingList.find_or_create_by(recipe: new_recipe, shopping_list: self)
     end
   end
@@ -35,8 +39,8 @@ class ShoppingList < ActiveRecord::Base
     end
   end
 
-  def recipe_data(recipe)
-    {"name" => recipe["name"], "source_url" => recipe["source_url"], "servings" => recipe["servings"]}
+  def recipe_data(recipe, params)
+    {"name" => recipe["name"], "source_url" => recipe["source_url"], "servings" => recipe["servings"], "user_id" => params['user']['user_id']}
   end
 
   def ingredient_data(ingredient, array)
