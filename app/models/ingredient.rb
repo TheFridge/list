@@ -11,10 +11,14 @@ class Ingredient < ActiveRecord::Base
     qtys = raw_ingredient.split.select do |char|
       char =~ /[[:digit:]]/
     end
-    if qtys.join(' ') == ""
+    joined_qty = qtys.join(' ')
+    if joined_qty.include?('(')
+      joined_qty = joined_qty.concat(')')
+    end
+    if joined_qty == ""
       return nil
     else
-    qtys.join(' ')
+      joined_qty
     end
   end
 

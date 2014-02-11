@@ -32,7 +32,9 @@ class IngredientTest < ActiveSupport::TestCase
 
   def test_formatting_quantity_strings_strange_number
     qty = Ingredient.get_quantity("1 1/2 pounds skinless, boneless chicken breast halves - cut into strips")
+    qty2 = Ingredient.get_quantity("1 (10.75 ounce) can condensed low fat cream of chicken and herbs soup")
     assert_equal "1 1/2", qty
+    assert_equal "1 (10.75)", qty2
   end
 
   def test_formatting_quantity_range
