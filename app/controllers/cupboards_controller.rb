@@ -40,7 +40,6 @@ class CupboardsController < ApplicationController
         'ingredient_id' => cu.ingredient_id,
         'quantity' => cu.quantity,
         'measurement' => cu.measurement}
-    }
     end
     {'cupboard' => cupboard, 'ingredients' => ingredients }.to_json
   end
