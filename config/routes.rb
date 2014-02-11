@@ -1,4 +1,5 @@
 FridgeList::Application.routes.draw do
+  resources :list_ingredients, path: "/list-ingredients"
   resources :recipe_ingredients
   resources :shopping_lists, path: "/shopping-lists"
   resources :cupboards
