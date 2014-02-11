@@ -17,7 +17,12 @@ class ShoppingListTest < ActiveSupport::TestCase
           '3 tablespoons butter',
           '4 skinless, boneless chicken breast halves',
           '2 teaspoons garlic powder'
-          ]
+          ],
+        "ingredient_list" => [
+          'butter',
+          'chicken',
+          'garlic powder'
+        ]
         },
         {"name" => "Bombay Cherry",
         "source_url" => "www.example.com/bombay_cherry",
@@ -26,7 +31,12 @@ class ShoppingListTest < ActiveSupport::TestCase
           '8 cups paprika',
           '7 cherries',
           'All the teaspoons of chickpeas'
-          ]
+        ],
+        "ingredient_list" => [
+          'paprika',
+          'cherries',
+          'chickpeas'
+        ]
         }
       ]
     }

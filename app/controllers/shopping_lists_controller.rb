@@ -49,8 +49,21 @@ class ShoppingListsController < ApplicationController
     render :json => {:error_message => "list not found"}, :status => 404
   end
 
+  #def formatted_list(list)
+  #  list.to_json(:include => [{:recipes => {except: [:created_at, :updated_at] }}, {:list_ingredients => {only: [:raw_name] }} ])
+  #end
+
   def formatted_list(list)
-    list.to_json(:include => [{:recipes => {except: [:created_at, :updated_at] }}, {:list_ingredients => {only: [:raw_name] }} ])
+    ingredients = list.list_ingredients.map do |li|
+      {'list_ingredient_id' => li.id,
+       'quantity' => li.quantity,
+       'measurement' => li.measurement,
+       'raw_name' => li.raw_name,
+       'name' => li.ingredient.name,
+       'ingredient_id' => li.ingredient.id
+      }
+    end
+    {'shopping_list' => list, 'ingredients' => ingredients, 'recipes' => list.recipes }.to_json
   end
 
   #curl command

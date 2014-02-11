@@ -35,10 +35,12 @@ class CupboardsController < ApplicationController
 
   def formatted_cupboard(cupboard)
     ingredients = cupboard.cupboard_ingredients.map do |cu|
-      { 'name' => cu.ingredient.name,
+      { 'cupboard_ingredient_id' => cu.id,
+        'name' => cu.ingredient.name,
         'ingredient_id' => cu.ingredient_id,
         'quantity' => cu.quantity,
         'measurement' => cu.measurement}
+    }
     end
     {'cupboard' => cupboard, 'ingredients' => ingredients }.to_json
   end
