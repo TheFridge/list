@@ -8,7 +8,7 @@ class CupboardsController < ApplicationController
       @cupboard.populate
       render json: formatted_cupboard(@cupboard), :status => 201
     else
-      render :json => {:error_message => "cupboard could not save"}, :status => 404  
+      render :json => {:error_message => "cupboard could not save"}, :status => 404
     end
   end
 
@@ -21,6 +21,16 @@ class CupboardsController < ApplicationController
     end
   end
 
+  def drop_item
+    if Cupboard.where(user_id: params['user_id']).any?
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      ingredient = @cupboard.cupboard_ingredients.find(params['cupboard_ingredient_id'])
+      ingredient.destroy
+    else
+      render :json => {:error_message => "Couldn't delete ingredient with id #{params['cupboard_ingredient_id']}"}
+    end
+  end
+
   private
 
   def formatted_cupboard(cupboard)
@@ -28,9 +38,8 @@ class CupboardsController < ApplicationController
       { 'cupboard_ingredient_id' => cu.id,
         'name' => cu.ingredient.name,
         'ingredient_id' => cu.ingredient_id,
-        'quantity' => cu.quantity, 
-        'measurement' => cu.measurement
-    }
+        'quantity' => cu.quantity,
+        'measurement' => cu.measurement}
     end
     {'cupboard' => cupboard, 'ingredients' => ingredients }.to_json
   end

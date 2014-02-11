@@ -3,6 +3,7 @@ FridgeList::Application.routes.draw do
   resources :recipe_ingredients
   resources :shopping_lists, path: "/shopping-lists"
   resources :cupboards
+  post '/cupboards/drop_item' => 'cupboards#drop_item'
   post '/shopping-list/email-list' => 'shopping_lists#email_list'
   post '/shopping-list/clear-list' => 'shopping_lists#clear_list'
   resources :recipes
