@@ -30,6 +30,11 @@ class IngredientTest < ActiveSupport::TestCase
     assert_equal "1000000", qty
   end
 
+  def test_formatting_quantity_strings_strange_number
+    qty = Ingredient.get_quantity("1 1/2 pounds skinless, boneless chicken breast halves - cut into strips")
+    assert_equal "1 1/2", qty
+  end
+
   def test_formatting_quantity_range
     qty = Ingredient.get_quantity("8-12 flour tortillas")
     assert_equal "8-12", qty
@@ -51,7 +56,7 @@ class IngredientTest < ActiveSupport::TestCase
   end
 
   def test_formatting_the_name
-    name = Ingredient.get_name("3 cups Peas")
+    name = Ingredient.get_name("3/4 cups Peas")
     assert_equal "Peas", name
   end
 

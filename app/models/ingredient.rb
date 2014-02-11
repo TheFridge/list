@@ -8,9 +8,14 @@ class Ingredient < ActiveRecord::Base
   validates_presence_of :name
 
   def self.get_quantity(raw_ingredient)
-    raw_ingredient.split.select do |char|
+    qtys = raw_ingredient.split.select do |char|
       char =~ /[[:digit:]]/
-    end.first
+    end
+    if qtys.join(' ') == ""
+      return nil
+    else
+    qtys.join(' ')
+    end
   end
 
   def self.get_measurement(raw_ingredient)
@@ -34,6 +39,6 @@ class Ingredient < ActiveRecord::Base
   def self.acceptable_measurements
     ['teaspoon', 'teaspoons', 't', 'tsp', 'cup', 'cups', 'pound', 'pounds', 'tablespoon', 
       'tablespoons', 'tbl', 'tbs', 'tbsp', 'ounce', 'ounces', 'oz', 'fl oz', 'pint', 'pints', 'quart', 'quarts',
-      'gallon', 'gallons', 'ml', 'liter', 'litre', 'l']
+      'gallon', 'gallons', 'ml', 'liter', 'litre', 'l', 'dash']
   end
 end
