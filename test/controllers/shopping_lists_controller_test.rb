@@ -57,7 +57,12 @@ class ShoppingListsControllerTest < ActionController::TestCase
           '9 strawberries',
           '1 Cake',
           '1 can whipped cream'
-          ]
+          ],
+        'ingredient_list' => [
+          'strawberries',
+          'cake',
+          'whipped cream'
+        ]
         }
       ]
     post :create, new_data

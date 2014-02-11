@@ -27,8 +27,9 @@ class ShoppingList < ActiveRecord::Base
 
   def create_shopping_list_ingredients(data)
     data['recipes'].each do |recipe|
+      ingredient_tags = recipe['ingredient_list']
       recipe['ingredients'].each do |ingredient|
-        new_ingredient = Ingredient.find_or_create_by(ingredient_data(ingredient.dup))
+        new_ingredient = Ingredient.find_or_create_by(ingredient_data(ingredient.dup, ingredient_tags))
         ListIngredient.find_or_create_by(list_ingredient_data(ingredient, new_ingredient)) 
       end
     end
@@ -38,8 +39,8 @@ class ShoppingList < ActiveRecord::Base
     {"name" => recipe["name"], "source_url" => recipe["source_url"], "servings" => recipe["servings"]}
   end
 
-  def ingredient_data(ingredient)
-    {"name" => Ingredient.get_name(ingredient)}
+  def ingredient_data(ingredient, array)
+    {"name" => Ingredient.get_name(ingredient), "tag" => Ingredient.get_tag(ingredient, array)}
   end
 
   def list_ingredient_data(string, ingredient)

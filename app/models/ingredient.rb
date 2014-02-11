@@ -43,8 +43,12 @@ class Ingredient < ActiveRecord::Base
   def self.get_tag(raw_ingredient, tag_array)
     result = Ingreedy.parse(raw_ingredient)
     name = result.ingredient
-    tag = tag_array.select {|tag| name.include?(tag)}
-    tag.first
+    if tag_array
+      tagging = tag_array.select {|tag| name.include?(tag)}
+      tagging.first
+    else
+      nil
+    end
   end
 
   def self.acceptable_measurements
