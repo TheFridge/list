@@ -1,4 +1,7 @@
 class RecipesController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
+  respond_to :json
 
   def index
     @recipes = Recipe.all
@@ -44,6 +47,11 @@ class RecipesController < ApplicationController
     end
   end
 
+  def user_recipes
+    @recipes = Recipe.recipes_for_user(params['user_id'])
+    render json: @recipes.to_json
+  end
+    
   private
 
     def set_recipe
