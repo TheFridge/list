@@ -6,6 +6,7 @@ FridgeList::Application.routes.draw do
   get '/user-recipes/:user_id' => 'recipes#user_recipes'
   post '/cupboards/drop_item' => 'cupboards#drop_item'
   post '/cupboards/update_quantity' => 'cupboards#update_quantity'
+  post '/cupboards/drop_all_items' => 'cupboards#drop_all_items'
   post '/shopping-list/email-list' => 'shopping_lists#email_list'
   post '/shopping-list/clear-list' => 'shopping_lists#clear_list'
   resources :recipes
