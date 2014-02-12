@@ -10,11 +10,11 @@ class ShoppingListsController < ApplicationController
   end
 
   def show
-    if ShoppingList.where(:id => params[:id]).any?
-      @list = ShoppingList.find(params[:id])
+    if ShoppingList.where(:user_id => params[:id]).any?
+      @list = ShoppingList.find_by(:user_id => params[:id])
       render json: formatted_list(@list)
     else
-      render :json => {:error_message => "no shopping list with id #{params[:id]}"}
+      render :json => {:error_message => "no shopping list with user_id #{params[:id]}"}
     end
   end
 

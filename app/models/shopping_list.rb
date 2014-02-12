@@ -6,10 +6,6 @@ class ShoppingList < ActiveRecord::Base
 
   validates_presence_of :user_id
 
-  def see_user_id(params)
-    params['user']["user_id"]
-  end
-
   
   def update_params(params)
     data = shopping_list_data(params)
@@ -40,7 +36,7 @@ class ShoppingList < ActiveRecord::Base
   end
 
   def recipe_data(recipe, params)
-    {"name" => recipe["name"], "source_url" => recipe["source_url"], "servings" => recipe["servings"], "user_id" => params['user']['user_id']}
+    {"name" => recipe["name"], "source_url" => recipe["source_url"], "servings" => recipe["servings"], "user_id" => params['user']['user_id'], "mamma_id" => recipe['mamma_id']}
   end
 
   def ingredient_data(ingredient, array)

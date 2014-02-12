@@ -13,11 +13,29 @@ class CupboardsController < ApplicationController
   end
 
   def show
-    if Cupboard.where(:id => params[:id]).any?
+    if Cupboard.where(:user_id => params[:id]).any?
       @cupboard = Cupboard.find_by(user_id: params['id'])
       render json: formatted_cupboard(@cupboard)
     else
       render :json => {:error_message => "no cupboard with id #{params[:id]}"}
+    end
+  end
+
+  def destroy
+    if Cupboard.where(:user_id => params[:id]).any?
+      @cupboard = Cupboard.find_by(user_id: params[:id])
+      @cupboard.destroy
+    else
+      render :json => {:error_message => "no cupboard with user_id #{params[:id]}"}
+    end
+  end
+
+  def drop_all_items
+    if Cupboard.where(user_id: params['user_id']).any?
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      @cupboard.cupboard_ingredients.each(&:destroy)
+    else
+      render :json => {:error_message => "Couldn't delete items for user with id #{params['user_id']}"}
     end
   end
 
@@ -31,12 +49,26 @@ class CupboardsController < ApplicationController
     end
   end
 
+  def add_ingredient
+    if Cupboard.where(user_id: params['user_id']).any?
+      @cupboard = Cupboard.find_by(user_id: params['user_id'])
+      ingredient = Ingredient.create(:name => params['ingredient'])
+      @cupboard.ingredients << ingredient
+      cupboard_ingredient = @cupboard.cupboard_ingredients.find_by(:ingredient_id => ingredient.id)
+      cupboard_ingredient.quantity = params['quantity']
+      cupboard_ingredient.measurement = params['measurement']
+      cupboard_ingredient.save
+    else
+      render :json => {:error_message => "Couldn't add #{params['ingredient']}"}
+    end
+  end
+
   def update_quantity
     if Cupboard.where(user_id: params['user_id']).any?
       @cupboard = Cupboard.find_by(user_id: params['user_id'])
       ingredient = @cupboard.cupboard_ingredients.find(params['cupboard_ingredient_id'])
       ingredient.quantity = params['quantity']
-      ingredient.save
+      ingredient.quantity < 0 ? ingredient.destroy : ingredient.save
     else
       render :json => {:error_message => "Couldn't update ingredient with id #{params['cupboard_ingredient_id']}"}
     end
