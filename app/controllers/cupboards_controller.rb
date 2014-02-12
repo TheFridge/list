@@ -68,7 +68,7 @@ class CupboardsController < ApplicationController
       @cupboard = Cupboard.find_by(user_id: params['user_id'])
       ingredient = @cupboard.cupboard_ingredients.find(params['cupboard_ingredient_id'])
       ingredient.quantity = params['quantity']
-      ingredient.save
+      ingredient.quantity < 0 ? ingredient.destroy : ingredient.save
     else
       render :json => {:error_message => "Couldn't update ingredient with id #{params['cupboard_ingredient_id']}"}
     end
