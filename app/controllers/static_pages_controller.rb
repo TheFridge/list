@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_action :authenticate, expect[:welcome]
+  before_action :authenticate, except: [:welcome]
 
 
   def welcome
